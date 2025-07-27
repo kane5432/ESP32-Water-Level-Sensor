@@ -7,7 +7,7 @@ It integrates with **Home Assistant**, storing the last known reading so you can
 ---
 
 ## Features
-- Reads water tank level using an **HC‑SR04** or similar ultrasonic sensor  
+- Reads water tank level using an **AJ-SR04M** or similar ultrasonic sensor  
 - Converts distance → **tank fill percentage**  
 - **Deep sleep** between readings for extended battery life  
 - **Persistent storage** in Home Assistant: keeps last known value when the ESP is offline  
