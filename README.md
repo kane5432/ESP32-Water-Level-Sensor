@@ -1,5 +1,10 @@
 # Water Tank Level Monitor (ESPHome + Home Assistant)
 
+If you found this project helpful, consider supporting me:  
+
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-Donate-yellow?logo=buy-me-a-coffee)](https://buymeacoffee.com/kanejarrats)
+
+
 This project uses an **ESP32‑C3** with an **ultrasonic sensor** to measure the water level in a tank, report the **fill percentage**, and **deep sleep** between readings to save power.  
 
 It integrates with **Home Assistant**, storing the last known reading so you can still see the fill level even while the device is asleep.  
@@ -58,4 +63,10 @@ It integrates with **Home Assistant**, storing the last known reading so you can
 3. The device takes a distance reading and converts it to a **fill percentage**.  
 4. The reading is sent to Home Assistant.  
 5. **If the reading succeeded:** the ESP goes into deep sleep for **1.5 hours**.  
-6. **If the reading failed:** it retries after **1 minute**.  
+6. **If the reading failed:** it retries after **1 minute**.
+
+## Support this project
+If you found this project helpful, you can support my work here:  
+
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-Donate-yellow?logo=buy-me-a-coffee)](https://buymeacoffee.com/kanejarrats)
+
