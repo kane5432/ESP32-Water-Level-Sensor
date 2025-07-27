@@ -1,0 +1,14 @@
+- alias: "Update Tank Fill Level Persistent"
+  trigger:
+    - platform: state
+      entity_id: sensor.watertank_level_tank_fill_level
+  condition:
+    - condition: template
+      value_template: >
+        {{ trigger.to_state.state not in ['unavailable', 'unknown', '', None] }}
+  action:
+    - service: input_number.set_value
+      target:
+        entity_id: input_number.tank_fill_level_persistent
+      data:
+        value: "{{ trigger.to_state.state | float }}"

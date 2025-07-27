@@ -1,0 +1,138 @@
+esphome:
+  name: watertank-level
+  friendly_name: watertank_level
+
+  # On boot, wait for Wi-Fi & API, allow OTA window, take a reading, then deep sleep
+  on_boot:
+    priority: -100
+    then:
+      - wait_until:
+          condition:
+            wifi.connected
+          timeout: 15s
+
+      - delay: 120s  # OTA update window after Wi-Fi connects (adjust as needed)
+
+      - wait_until:
+          condition:
+            api.connected
+          timeout: 30s
+
+      - if:
+          condition:
+            and:
+              - wifi.connected
+              - api.connected
+          then:
+            - delay: 2s
+            - component.update: tank_distance  # Trigger distance measurement
+            - delay: 20s  # Wait for reading to stabilize
+            - if:
+                condition:
+                  lambda: 'return id(sensor_success);'
+                then:
+                  - deep_sleep.enter:
+                      id: deep_sleep_ctrl
+                      sleep_duration: 5400s  # Sleep for 1.5 hours after a good reading
+                else:
+                  - deep_sleep.enter:
+                      id: deep_sleep_ctrl
+                      sleep_duration: 60s  # Retry quickly if reading fails
+          else:
+            - deep_sleep.enter:
+                id: deep_sleep_ctrl
+                sleep_duration: 300s  # Retry in 5 minutes if Wi-Fi/API fail
+
+esp32:
+  board: esp32-c3-devkitm-1
+  framework:
+    type: esp-idf
+
+logger:
+  baud_rate: 115200  # Serial log speed
+
+api:
+  encryption:
+    key: "YOUR_API_KEY"  # <-- Replace with your API key
+
+ota:
+  platform: esphome
+  password: "YOUR_OTA_PASSWORD"  # <-- Replace with your OTA password
+
+wifi:
+  ssid: "YOUR_WIFI_SSID"      # <-- Replace with your Wi-Fi SSID
+  password: "YOUR_WIFI_PASSWORD"  # <-- Replace with your Wi-Fi password
+  output_power: 15dB  # Adjust transmit power as needed (or remove for default)
+
+captive_portal:
+
+deep_sleep:
+  id: deep_sleep_ctrl
+
+# Global variable to track if the sensor reading succeeded
+globals:
+  - id: sensor_success
+    type: bool
+    restore_value: no
+    initial_value: 'false'
+
+sensor:
+  # Ultrasonic sensor for distance measurement
+  - platform: ultrasonic
+    trigger_pin: GPIO4        # <-- Adjust these pins for your setup
+    echo_pin: GPIO3
+    name: "Tank Distance"
+    id: tank_distance
+    update_interval: never    # Only update when manually triggered
+    timeout: 4.0m
+    accuracy_decimals: 2
+    unit_of_measurement: "m"
+    filters:
+      - median:
+          window_size: 5      # Smooth readings with median filter
+          send_every: 1
+          send_first_at: 1
+      - lambda: |-
+        // Ignore readings above 3m (beyond sensor/tank range)
+        if (x > 3.0) return NAN;  
+        return x;
+
+
+    on_value:
+      then:
+        - if:
+            condition:
+              lambda: 'return !isnan(x);'
+            then:
+              - lambda: 'id(sensor_success) = true;'
+        - component.update: tank_fill_level  # Update fill percentage
+
+  # Template sensor to convert distance into fill percentage
+  - platform: template
+    name: "Tank Fill Level"
+    id: tank_fill_level
+    unit_of_measurement: "%"
+    icon: "mdi:water-percent"
+    accuracy_decimals: 1
+    update_interval: never
+    lambda: |-
+      if (isnan(id(tank_distance).state)) {
+        return NAN;  // Return no value if distance is invalid
+      }
+
+      float distance_cm = id(tank_distance).state * 100.0f;
+
+      // --- USER CONFIGURABLE VALUES ---
+      const float max_distance = 200.0f;  // Distance when tank is empty (in cm) - adjust!
+      const float min_distance = 20.0f;   // Distance when tank is full (in cm) - adjust!
+      // ---------------------------------
+
+      if (distance_cm <= min_distance) {
+        return 100.0f;  // Treat as full if at or below min
+      }
+
+      float filled = (max_distance - distance_cm) / (max_distance - min_distance) * 100.0f;
+
+      if (filled < 0.0f) return 0.0f;
+      if (filled > 100.0f) return 100.0f;
+      return filled;

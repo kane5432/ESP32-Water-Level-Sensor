@@ -1,0 +1,24 @@
+input_number:
+  tank_fill_level_persistent:
+    name: Tank Fill Level Persistent
+    min: 0
+    max: 100
+    step: 0.1
+    unit_of_measurement: "%"
+
+template:
+  - sensor:
+      - name: "Tank Fill Level Retained"
+        unique_id: tank_fill_level_retained
+        unit_of_measurement: "%"
+        device_class: battery
+        state_class: measurement
+        state: >
+          {% set val = states('sensor.watertank_level_tank_fill_level') %}
+          {% if val not in ['unavailable', 'unknown', None] %}
+            {{ val | float | round(1) }}
+          {% else %}
+            {{ states('input_number.tank_fill_level_persistent') | float | round(1) }}
+          {% endif %}
+        availability: true
+
