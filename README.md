@@ -25,11 +25,28 @@ It integrates with **Home Assistant**, storing the last known reading so you can
 - **ESP32‑C3 Super Mini** (or compatible ESP32 board)  
 - **Ultrasonic Distance Sensor** (e.g. JSN‑SR04T or AJ-SR04M for waterproof applications)
 - **6V 1W Solar Panel**
-- **TP4056 Charing Module**
+- **TP4056 Charging Module**
 - **5v Boost Converter**
 - **470μF Capacitor**
 - **1 kΩ + 2 kΩ resistors** (for voltage divider on echo pin)
 - **Wires, soldering tools, and a small enclosure** (optional but recommended)
+
+
+## Wire the Ultrasonic Sensor to ESP32
+- VCC → 5V (from boost converter)
+- GND → GND
+- Trigger → GPIO 3 (change in YAML if needed)
+- Echo → Voltage divider (2 kΩ to Echo, 1 kΩ to GND, take signal from between resistors) → GPIO 2
+
+### Why?
+The sensor outputs 5V on Echo, but the ESP32 only tolerates 3.3V, the voltage divider drops it to a safe level.
+
+## Wire the Power System
+1. Solar panel → TP4056 input (IN+) & (IN–)
+2. TP4056 output (BAT+ & BAT–) → Li‑ion battery
+3. TP4056 output (BAT+ & BAT–) → Boost converter input
+4. Boost converter output (5V & GND) → ESP32 5V pin and Ultrasonic sensor VCC
+5. 470 µF capacitor across the boost converter output (helps prevent brown‑outs when ESP wakes up).
 
 ---
 
@@ -65,7 +82,7 @@ It integrates with **Home Assistant**, storing the last known reading so you can
 
 ## How it works
 1. The ESP wakes up and connects to Wi‑Fi & Home Assistant API.  
-2. It opens a **2‑minute OTA window** to allow firmware updates.  
+2. It opens a **2‑minute OTA window** (can be changed in YAML) to allow firmware updates.  
 3. The device takes a distance reading and converts it to a **fill percentage**.  
 4. The reading is sent to Home Assistant.  
 5. **If the reading succeeded:** the ESP goes into deep sleep for **1.5 hours**.  
