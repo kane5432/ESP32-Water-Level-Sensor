@@ -28,7 +28,8 @@ It integrates with **Home Assistant**, storing the last known reading so you can
 - **TP4056 Charing Module**
 - **5v Boost Converter**
 - **470μF Capacitor**
-- **1 x 1k Ohm, 1 x 2k Ohm Resistors** used as a voltage divider to bring the echo pin signal down to 3.3V for the ESP. 
+- **1 kΩ + 2 kΩ resistors** (for voltage divider on echo pin)
+- **Wires, soldering tools, and a small enclosure** (optional but recommended)
 
 ---
 
