@@ -44,7 +44,7 @@ esphome:
                 sleep_duration: 300s  # Retry in 5 minutes if Wi-Fi/API fail
 
 esp32:
-  board: esp32-c3-devkitm-1
+  board: esp32-c3-devkitm-1 # <-- Change depending on the board you're using
   framework:
     type: esp-idf
 
@@ -136,3 +136,4 @@ sensor:
       if (filled < 0.0f) return 0.0f;
       if (filled > 100.0f) return 100.0f;
       return filled;
+
