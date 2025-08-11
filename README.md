@@ -24,7 +24,7 @@ It integrates with **Home Assistant**, storing the last known reading so you can
 ## Hardware
 - **ESP32‑C3 Super Mini** (or compatible ESP32 board)  
 - **Ultrasonic Distance Sensor** (e.g. JSN‑SR04T or AJ-SR04M for waterproof applications)
-- **6V 1W Solar Panel**
+- **[6V 1W Solar Panel](https://s.click.aliexpress.com/e/_oC7Xvgg)**
 - **TP4056 Charging Module**
 - **5v Boost Converter**
 - **470μF Capacitor**
