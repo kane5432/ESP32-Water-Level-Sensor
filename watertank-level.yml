@@ -92,7 +92,7 @@ sensor:
           window_size: 5      # Smooth readings with median filter
           send_every: 1
           send_first_at: 1
-      - lambda: |-
+      - lambda: |-      ## Remove |- if you're getting compilation errors on line 96, 97, 98
         // Ignore readings above 3m (beyond sensor/tank range)
         if (x > 3.0) return NAN;  
         return x;
@@ -136,4 +136,5 @@ sensor:
       if (filled < 0.0f) return 0.0f;
       if (filled > 100.0f) return 100.0f;
       return filled;
+
 
