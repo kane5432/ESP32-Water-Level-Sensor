@@ -49,7 +49,7 @@ The sensor outputs 5V on Echo, but the ESP32 only tolerates 3.3V, the voltage di
 4. Boost converter output (5V & GND) → ESP32 5V pin and Ultrasonic sensor VCC
 5. 470 µF capacitor across the boost converter output (helps prevent brown‑outs when ESP wakes up).
 
-![Schematic preview](./docs/Schematics.png)
+![Schematic preview](../docs/Schematics.png)
 
 ---
 
