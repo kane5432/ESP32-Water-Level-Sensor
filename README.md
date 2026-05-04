@@ -10,6 +10,8 @@ This project uses an **ESP32‑C3** with an **ultrasonic sensor** to measure the
 
 It integrates with **Home Assistant**, storing the last known reading so you can still see the fill level even while the device is asleep.  
 
+You can find the full blog post at https://jrattechworks.com/water-tank-level-sensor/
+
 ---
 
 ## Features
