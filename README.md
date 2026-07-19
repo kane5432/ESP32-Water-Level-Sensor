@@ -24,8 +24,7 @@ You can find the full blog post at https://jrattechworks.com/water-tank-level-se
 ---
 
 ## Hardware
-- **[Soldering Iron](https://s.click.aliexpress.com/e/_oFJoBJz)**
-- **[ESP32‑C3 Super Mini](https://s.click.aliexpress.com/e/_opsH2Xv)** (or compatible ESP32 board)  
+- **[ESP32‑C3 Super Mini](https://s.click.aliexpress.com/e/_c2uaIcnt)** (or compatible ESP32 board)  
 - **[Ultrasonic Distance Sensor](https://s.click.aliexpress.com/e/_oocTPPV)** e.g. JSN‑SR04T or AJ-SR04M for waterproof applications)
 - **[6V 1W Solar Panel](https://s.click.aliexpress.com/e/_onX79Zh)**
 - **[TP4056 Charging Module](https://s.click.aliexpress.com/e/_omYIa87)**
@@ -33,6 +32,7 @@ You can find the full blog post at https://jrattechworks.com/water-tank-level-se
 - **[470μF Capacitor](https://s.click.aliexpress.com/e/_oE1Fw4j)**
 - **[1 kΩ + 2 kΩ resistors](https://s.click.aliexpress.com/e/_oFfpK9d)** (for voltage divider on echo pin)
 - **[Wires](https://s.click.aliexpress.com/e/_oD4px7l) and a small enclosure** (optional but recommended)
+- **[Soldering Iron](https://s.click.aliexpress.com/e/_c39TuVR5)**
 
 
 ## Wire the Ultrasonic Sensor to ESP32
